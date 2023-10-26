@@ -1,5 +1,7 @@
 package ru.naumen.collection.task2;
 
+import java.util.*;
+
 /**
  * Дано:
  * <pre>
@@ -23,6 +25,40 @@ package ru.naumen.collection.task2;
  * @since 19.10.2023
  */
 public class Task2 {
+    List<Ticket> tickets = new ArrayList<>();
 
-    // TODO
+    /**
+     * Обращение к значениям словаря происходит за O(1), в классе Ticket переопределил методы equals and hashcode
+     * для лучшей работы Map
+     */
+    Map<Ticket, FOOD> map = new HashMap<>();
+
+    /**
+     * Сложность программы O(n), так как все 3 метода в main линейные
+     */
+    public static void main(String[] args) {
+        Task2 task2 = new Task2();
+        task2.init(20);
+        task2.addFood();
+        task2.ticketsScan();
+    }
+
+    private void addFood() {
+        FOOD[] foodArray = FOOD.values();
+        for (var i = 0; i < tickets.size(); i++) {
+            map.put(tickets.get(i), foodArray[i % foodArray.length]);
+        }
+    }
+
+    private void init(int count) {
+        for (var i = 0; i < count; i++)
+            tickets.add(new Ticket(i, i + " client"));
+    }
+
+    private void ticketsScan() {
+        for (Ticket ticket : tickets) {
+            System.out.println(ticket.getClient() + " with id " + ticket.getId() + " have: " + map.get(ticket).toString());
+        }
+    }
 }
+
